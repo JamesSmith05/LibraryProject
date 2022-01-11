@@ -18,20 +18,8 @@ public class Main {
     }
 
     public static int Hashing(String password){
-        int passwordHash = 7;
-        try{
-            for (int i = 0; i < password.length(); i++) {
-                passwordHash = passwordHash * 37 + password.charAt(i);
-            }
-        } catch(Exception e){
-            e.printStackTrace();
-        }
+        int passwordHash = password.hashCode();
         return passwordHash;
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
     }
 
     public static void Register() {
@@ -45,7 +33,7 @@ public class Main {
             Scanner myReader = new Scanner(UserObject);
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
-                String[] bookDetails = data.split("ʶ");
+                String[] bookDetails = data.split(",,");
                 if (bookDetails[0].equals(usernameAttempt)) {
                     valid = "false";
                 }
@@ -56,7 +44,8 @@ public class Main {
                     passwordAttempt = getInput("What would you like your password to be, bare in mind no spaces are allowed ");
                 }
                 int hashedPassword = Hashing(passwordAttempt);
-                myWriter.write(usernameAttempt + "ʶ" + hashedPassword +"\n");
+                myWriter.write(usernameAttempt + ",," + hashedPassword +"\n");
+                myWriter.close();
                 System.out.println("Successfully registered");
                 Menu();
             }
@@ -64,7 +53,7 @@ public class Main {
                 System.out.println("Registering failed, user already exists");
                 Menu();
             }
-            myWriter.close();
+
 
         } catch (IOException e) {
             System.out.println("An error occurred.");
@@ -101,13 +90,14 @@ public class Main {
             Scanner myReader = new Scanner(UserObject);
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
-                String[] bookDetails = data.split("ʶ");
+                String[] bookDetails = data.split(",,");
                 if (bookDetails[0].equals(username)) {
                    usernameFound = "found";
                 }
             }
-            while (myReader.hasNextLine()){
-                String data = myReader.nextLine();
+            Scanner myReader2 = new Scanner(UserObject);
+            while (myReader2.hasNextLine()){
+                String data = myReader2.nextLine();
                 String[] bookDetails = data.split(",,");
 
                 if (bookDetails[1].equals(Integer.toString(hashedPassword))) {
